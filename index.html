@@ -1,0 +1,147 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Retro Gaming</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="site-hero">
+    <nav class="nav shell">
+      <div class="brand">
+        <p class="brand-kicker">Insert Coin</p>
+        <h1>Retro Gaming</h1>
+      </div>
+      <div class="controls">
+        <input id="search" type="search" placeholder="Filter consoles..." aria-label="Search consoles">
+        <button id="themeToggle" aria-pressed="false">Activate Shift</button>
+      </div>
+    </nav>
+
+    <section class="hero-content shell" data-reveal>
+      <p class="eyebrow">Playable History</p>
+      <h2>Where Legends Load in 8-Bit and Hit Like Thunder.</h2>
+      <p>Explore iconic consoles from arcades to living rooms, with a modern visual energy built for fans who still remember the startup sound.</p>
+      <div class="hero-actions">
+        <a href="#vault" class="btn btn-primary">Enter the Vault</a>
+        <a href="#eras" class="btn btn-ghost">Jump Through Eras</a>
+      </div>
+      <ul class="stats" aria-label="Site highlights">
+        <li><span>07</span> featured systems</li>
+        <li><span>41</span> years of hardware evolution</li>
+        <li><span>Infinite</span> nostalgia loops</li>
+      </ul>
+    </section>
+  </header>
+
+  <main>
+    <section id="vault" class="games-section shell">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">Console Vault</p>
+        <h3>Consoles</h3>
+      </div>
+
+      <div class="grid" id="gameGrid">
+        <article class="card" data-title="PlayStation PS1" data-reveal>
+          <img src="images/PS1 Img (2).png" alt="PlayStation PS1 logo">
+          <div class="card-copy">
+            <h4>PlayStation (PS1)</h4>
+            <p>Sony - 1994</p>
+            <a class="card-link" href="consoles/ps1.html">View Console Page</a>
+          </div>
+        </article>
+
+        <article class="card" data-title="PlayStation 2 PS2" data-reveal>
+          <img src="images/PS2 img.png" alt="PlayStation 2 PS2 logo">
+          <div class="card-copy">
+            <h4>PlayStation 2 (PS2)</h4>
+            <p>Sony - 2000</p>
+            <a class="card-link" href="consoles/ps2.html">View Console Page</a>
+          </div>
+        </article>
+
+        <article class="card" data-title="Super Nintendo SNES" data-reveal>
+          <img src="images/SNES img.png" alt="Super Nintendo SNES logo">
+          <div class="card-copy">
+            <h4>Super Nintendo (SNES)</h4>
+            <p>Nintendo - 1990</p>
+            <a class="card-link" href="consoles/snes.html">View Console Page</a>
+          </div>
+        </article>
+
+        <article class="card" data-title="Nintendo Entertainment System NES" data-reveal>
+          <img src="images/NES ing.png" alt="Nintendo Entertainment System NES logo">
+          <div class="card-copy">
+            <h4>Nintendo Entertainment System (NES)</h4>
+            <p>Nintendo - 1983</p>
+            <a class="card-link" href="consoles/nes.html">View Console Page</a>
+          </div>
+        </article>
+
+        <article class="card" data-title="Nintendo 64 N64" data-reveal>
+          <img src="images/N64 img.png" alt="Nintendo 64 N64 logo">
+          <div class="card-copy">
+            <h4>Nintendo 64 (N64)</h4>
+            <p>Nintendo - 1996</p>
+            <a class="card-link" href="consoles/n64.html">View Console Page</a>
+          </div>
+        </article>
+
+        <article class="card" data-title="Game Boy Color" data-reveal>
+          <img src="images/GameBoy Color img.png" alt="Game Boy Color logo">
+          <div class="card-copy">
+            <h4>Game Boy Color</h4>
+            <p>Nintendo - 1998</p>
+            <a class="card-link" href="consoles/gameboy-color.html">View Console Page</a>
+          </div>
+        </article>
+
+        <article class="card" data-title="Game Boy Advance" data-reveal>
+          <img src="images/GameBoy Advance.png" alt="Game Boy Advance logo">
+          <div class="card-copy">
+            <h4>Game Boy Advance</h4>
+            <p>Nintendo - 2001</p>
+            <a class="card-link" href="consoles/gameboy-advance.html">View Console Page</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="eras" class="timeline shell" data-reveal>
+      <div class="section-heading">
+        <p class="eyebrow">Time Warp</p>
+        <h3>Three Defining Eras</h3>
+      </div>
+      <div class="era-grid">
+        <article>
+          <p class="era-year">1983-1989</p>
+          <h4>Home Console Breakthrough</h4>
+          <p>The NES helped reboot confidence in home gaming and shaped level design language for decades.</p>
+        </article>
+        <article>
+          <p class="era-year">1990-1999</p>
+          <h4>16-Bit to 64-Bit Leap</h4>
+          <p>SNES and N64 pushed color, worlds, and controller innovation while arcades stayed culturally dominant.</p>
+        </article>
+        <article>
+          <p class="era-year">2000-2001</p>
+          <h4>Portable and Power Era</h4>
+          <p>PS2 dominated living rooms while Game Boy Advance proved handheld design still had massive runway.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer shell">
+    <p>Retro Arcade Atlas - Built for players who still remember memory cards.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
