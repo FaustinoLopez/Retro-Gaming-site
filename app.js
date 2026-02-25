@@ -3,16 +3,48 @@
   const search = document.getElementById('search');
   const grid = document.getElementById('gameGrid');
   const themeToggle = document.getElementById('themeToggle');
+  const navLinks = Array.from(document.querySelectorAll('.nav-link'));
 
-  if (!grid) return;
+  const setActiveNav = (id) => {
+    if (!id) return;
+    navLinks.forEach((link) => {
+      const target = link.getAttribute('href')?.replace('#', '');
+      link.classList.toggle('active', target === id);
+    });
+  };
 
-  const cards = Array.from(grid.querySelectorAll('.card'));
-  const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
+  if (navLinks.length) {
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        const target = link.getAttribute('href')?.replace('#', '');
+        setActiveNav(target);
+      });
+    });
 
-  if (search) {
+    const sections = ['vault', 'eras']
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (sections.length && 'IntersectionObserver' in window) {
+      const navObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveNav(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: '-35% 0px -55% 0px', threshold: 0.1 }
+      );
+
+      sections.forEach((section) => navObserver.observe(section));
+    }
+  }
+
+  if (grid && search) {
+    const cards = Array.from(grid.querySelectorAll('.card'));
     search.addEventListener('input', (event) => {
       const query = (event.target.value || '').trim().toLowerCase();
-
       cards.forEach((card) => {
         const title = (card.dataset.title || '').toLowerCase();
         card.hidden = !title.includes(query);
@@ -28,6 +60,7 @@
     });
   }
 
+  const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(
       (entries, obs) => {

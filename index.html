@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Retro Gaming</title>
+  <title>Retro Arcade Atlas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -18,6 +18,12 @@
         <p class="brand-kicker">Insert Coin</p>
         <h1>Retro Gaming</h1>
       </div>
+
+      <div class="site-links" aria-label="Section links">
+        <a class="nav-link active" href="#vault">Vault</a>
+        <a class="nav-link" href="#eras">Eras</a>
+      </div>
+
       <div class="controls">
         <input id="search" type="search" placeholder="Filter consoles..." aria-label="Search consoles">
         <button id="themeToggle" aria-pressed="false">Activate Shift</button>
@@ -49,7 +55,7 @@
 
       <div class="grid" id="gameGrid">
         <article class="card" data-title="PlayStation PS1" data-reveal>
-          <img src="images/PS1 Img (2).png" alt="PlayStation PS1 logo">
+          <img class="ps1-image" src="docs/images/PS1 Img (2).png" alt="Original Sony PlayStation console from 1994">
           <div class="card-copy">
             <h4>PlayStation (PS1)</h4>
             <p>Sony - 1994</p>
@@ -58,7 +64,7 @@
         </article>
 
         <article class="card" data-title="PlayStation 2 PS2" data-reveal>
-          <img src="images/PS2 img.png" alt="PlayStation 2 PS2 logo">
+          <img src="docs/images/PS2 img.png" alt="Sony PlayStation 2 console released in 2000">
           <div class="card-copy">
             <h4>PlayStation 2 (PS2)</h4>
             <p>Sony - 2000</p>
@@ -67,7 +73,7 @@
         </article>
 
         <article class="card" data-title="Super Nintendo SNES" data-reveal>
-          <img src="images/SNES img.png" alt="Super Nintendo SNES logo">
+          <img src="docs/images/SNES img.png" alt="Super Nintendo Entertainment System 16-bit console">
           <div class="card-copy">
             <h4>Super Nintendo (SNES)</h4>
             <p>Nintendo - 1990</p>
@@ -76,7 +82,7 @@
         </article>
 
         <article class="card" data-title="Nintendo Entertainment System NES" data-reveal>
-          <img src="images/NES ing.png" alt="Nintendo Entertainment System NES logo">
+          <img src="docs/images/NES ing.png" alt="Nintendo Entertainment System home console from the 1980s">
           <div class="card-copy">
             <h4>Nintendo Entertainment System (NES)</h4>
             <p>Nintendo - 1983</p>
@@ -85,7 +91,7 @@
         </article>
 
         <article class="card" data-title="Nintendo 64 N64" data-reveal>
-          <img src="images/N64 img.png" alt="Nintendo 64 N64 logo">
+          <img src="docs/images/N64 img.png" alt="Nintendo 64 console known for analog control and local multiplayer">
           <div class="card-copy">
             <h4>Nintendo 64 (N64)</h4>
             <p>Nintendo - 1996</p>
@@ -94,7 +100,7 @@
         </article>
 
         <article class="card" data-title="Game Boy Color" data-reveal>
-          <img src="images/GameBoy Color img.png" alt="Game Boy Color logo">
+          <img src="docs/images/GameBoy Color img.png" alt="Nintendo Game Boy Color handheld console">
           <div class="card-copy">
             <h4>Game Boy Color</h4>
             <p>Nintendo - 1998</p>
@@ -103,7 +109,7 @@
         </article>
 
         <article class="card" data-title="Game Boy Advance" data-reveal>
-          <img src="images/GameBoy Advance.png" alt="Game Boy Advance logo">
+          <img src="docs/images/GameBoy Advance.png" alt="Nintendo Game Boy Advance handheld console released in 2001">
           <div class="card-copy">
             <h4>Game Boy Advance</h4>
             <p>Nintendo - 2001</p>
@@ -139,7 +145,8 @@
   </main>
 
   <footer class="site-footer shell">
-    <p>Retro Arcade Atlas - Built for players who still remember memory cards.</p>
+    <p>Retro Gaming - Built for players who still remember memory cards.</p>
+    <p class="footer-signature">Built by Faustino Lopez - <a href="https://github.com/faustinolopez" target="_blank" rel="noopener noreferrer">GitHub</a></p>
   </footer>
 
   <script src="app.js"></script>

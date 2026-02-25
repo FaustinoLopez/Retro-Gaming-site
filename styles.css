@@ -480,3 +480,96 @@ body.mode-shift .hero-content {
     height: 190px;
   }
 }
+/* UX polish update */
+html {
+  scroll-behavior: smooth;
+}
+
+#vault,
+#eras {
+  scroll-margin-top: 1rem;
+}
+
+.site-links {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 600 0.74rem/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--ink);
+  border-color: var(--brand-2);
+  background: rgba(48, 213, 200, 0.12);
+}
+
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.card img {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  padding: 0;
+  background: none;
+}
+
+.card img.ps1-image {
+  object-fit: contain;
+  padding: 0.55rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.card-copy {
+  flex: 1;
+}
+
+.footer-signature {
+  margin-top: 0.65rem;
+  color: var(--muted);
+}
+
+.footer-signature a {
+  color: var(--brand-2);
+  text-decoration: none;
+}
+
+.footer-signature a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 980px) {
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .site-links {
+    order: 3;
+    width: 100%;
+  }
+}
