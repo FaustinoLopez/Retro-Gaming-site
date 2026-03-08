@@ -1,151 +1,384 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Retro Arcade Atlas</title>
+  <title>Pixel Panic HQ | Retro Gaming Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Chakra+Petch:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body id="top">
   <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
 
   <header class="site-hero">
-    <nav class="nav shell">
-      <div class="brand">
-        <p class="brand-kicker">Insert Coin</p>
-        <h1>Retro Gaming</h1>
-      </div>
+    <nav class="main-nav shell">
+      <a class="brand" href="#top" aria-label="Pixel Panic HQ homepage">
+        <span class="brand-kicker">Retro Archive Network</span>
+        <span class="brand-title">Pixel Panic HQ</span>
+      </a>
 
       <div class="site-links" aria-label="Section links">
         <a class="nav-link active" href="#vault">Vault</a>
-        <a class="nav-link" href="#eras">Eras</a>
+        <a class="nav-link" href="#timeline">Timeline</a>
+        <a class="nav-link" href="#genres">Genres</a>
+        <a class="nav-link" href="#collectors">Collector</a>
+        <a class="nav-link" href="#library">Library</a>
       </div>
 
-      <div class="controls">
-        <input id="search" type="search" placeholder="Filter consoles..." aria-label="Search consoles">
-        <button id="themeToggle" aria-pressed="false">Activate Shift</button>
-      </div>
+      <button id="themeToggle" class="mode-toggle" aria-pressed="false">Hyper Mode</button>
     </nav>
 
-    <section class="hero-content shell" data-reveal>
-      <p class="eyebrow">Playable History</p>
-      <h2>Where Legends Load in 8-Bit and Hit Like Thunder.</h2>
-      <p>Explore iconic consoles from arcades to living rooms, with a modern visual energy built for fans who still remember the startup sound.</p>
+    <section class="hero-shell shell" data-reveal>
+      <p class="eyebrow">All Signal - No Dusty Menus</p>
+      <h1>Crazy Retro Gaming Hub Built to Stay Organized.</h1>
+      <p>Console dossiers, era milestones, genre maps, and collector guidance in one high-voltage archive for players who still hear startup chimes in their sleep.</p>
       <div class="hero-actions">
-        <a href="#vault" class="btn btn-primary">Enter the Vault</a>
-        <a href="#eras" class="btn btn-ghost">Jump Through Eras</a>
+        <a href="#vault" class="btn btn-primary">Launch Console Vault</a>
+        <a href="#library" class="btn btn-ghost">Open Starter Routes</a>
       </div>
-      <ul class="stats" aria-label="Site highlights">
-        <li><span>07</span> featured systems</li>
-        <li><span>41</span> years of hardware evolution</li>
-        <li><span>Infinite</span> nostalgia loops</li>
+      <ul class="hero-stats" aria-label="Site highlights">
+        <li><span>07</span> console dossiers</li>
+        <li><span>06</span> genre lanes</li>
+        <li><span>23</span>+ must-play classics</li>
       </ul>
+      <p class="hero-ticker">1983 NES reset -> 1990 SNES color boom -> 1994 PlayStation polygons -> 1996 N64 analog revolution -> 2000 PS2 DVD era -> 2001 GBA portable jump</p>
     </section>
   </header>
 
   <main>
-    <section id="vault" class="games-section shell">
+    <section id="index" class="quick-index shell section-block" data-reveal>
+      <div class="section-heading">
+        <p class="eyebrow">Quick Warp</p>
+        <h2>Site Control Deck</h2>
+      </div>
+      <div class="quick-index-grid">
+        <a href="#vault">
+          <strong>Console Vault</strong>
+          <span>Search and filter every featured system by maker, format, and era.</span>
+        </a>
+        <a href="#timeline">
+          <strong>Era Timeline</strong>
+          <span>Track major shifts from cartridge dominance to the DVD generation.</span>
+        </a>
+        <a href="#genres">
+          <strong>Genre Matrix</strong>
+          <span>See which play styles exploded on each generation of hardware.</span>
+        </a>
+        <a href="#collectors">
+          <strong>Collector Corner</strong>
+          <span>Use maintenance and buying checks before grabbing old hardware.</span>
+        </a>
+        <a href="#library">
+          <strong>Starter Library</strong>
+          <span>Follow structured routes to start with the right retro games fast.</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="vault" class="shell section-block">
       <div class="section-heading" data-reveal>
-        <p class="eyebrow">Console Vault</p>
-        <h3>Consoles</h3>
+        <p class="eyebrow">Core Archive</p>
+        <h2>Console Vault</h2>
       </div>
 
-      <div class="grid" id="gameGrid">
-        <article class="card" data-title="PlayStation PS1" data-reveal>
-          <img class="ps1-image" src="docs/images/PS1 Img (2).png" alt="Original Sony PlayStation console from 1994">
-          <div class="card-copy">
-            <h4>PlayStation (PS1)</h4>
-            <p>Sony - 1994</p>
-            <a class="card-link" href="consoles/ps1.html">View Console Page</a>
+      <form class="filter-panel" id="filterPanel" data-reveal>
+        <label class="field">
+          <span>Search</span>
+          <input id="search" type="search" placeholder="Try: RPG, 3D, cartridge..." aria-label="Search consoles by keyword">
+        </label>
+        <label class="field">
+          <span>Maker</span>
+          <select id="makerFilter" aria-label="Filter by maker">
+            <option value="all">All Makers</option>
+            <option value="nintendo">Nintendo</option>
+            <option value="sony">Sony</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Format</span>
+          <select id="formatFilter" aria-label="Filter by media format">
+            <option value="all">All Formats</option>
+            <option value="cartridge">Cartridge</option>
+            <option value="optical">Optical Disc</option>
+            <option value="hybrid">Hybrid / Handheld</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Era</span>
+          <select id="eraFilter" aria-label="Filter by era">
+            <option value="all">All Eras</option>
+            <option value="1980s">1980s</option>
+            <option value="1990s">1990s</option>
+            <option value="2000s">2000s</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Sort</span>
+          <select id="sortBy" aria-label="Sort consoles">
+            <option value="year-asc">Oldest First</option>
+            <option value="year-desc">Newest First</option>
+            <option value="name-asc">Name A-Z</option>
+          </select>
+        </label>
+        <button id="randomPick" class="dice-btn" type="button">Random Pick</button>
+      </form>
+
+      <p class="result-count" id="resultCount" aria-live="polite">7 console dossiers loaded.</p>
+      <p class="empty-state" id="emptyState" hidden>No console matched your filters. Try a different combo.</p>
+
+      <div class="vault-grid" id="gameGrid">
+        <article class="console-card" data-title="Nintendo Entertainment System NES" data-maker="nintendo" data-format="cartridge" data-era="1980s" data-year="1983" data-tags="8-bit platformer action metroidvania cartridge">
+          <img src="docs/images/NES ing.png" alt="Nintendo Entertainment System home console from 1983">
+          <div class="card-body">
+            <h3>Nintendo Entertainment System</h3>
+            <p class="card-sub">Nintendo | 1983 | 8-bit reset</p>
+            <p>The machine that rebuilt trust in home gaming after the early-80s crash.</p>
+            <ul class="mini-specs">
+              <li><span>CPU</span><strong>1.79 MHz</strong></li>
+              <li><span>Media</span><strong>Cartridge</strong></li>
+              <li><span>Icon</span><strong>SMB 3</strong></li>
+            </ul>
+            <a class="dossier-link" href="consoles/nes.html">Open Dossier</a>
           </div>
         </article>
 
-        <article class="card" data-title="PlayStation 2 PS2" data-reveal>
-          <img src="docs/images/PS2 img.png" alt="Sony PlayStation 2 console released in 2000">
-          <div class="card-copy">
-            <h4>PlayStation 2 (PS2)</h4>
-            <p>Sony - 2000</p>
-            <a class="card-link" href="consoles/ps2.html">View Console Page</a>
-          </div>
-        </article>
-
-        <article class="card" data-title="Super Nintendo SNES" data-reveal>
+        <article class="console-card" data-title="Super Nintendo SNES" data-maker="nintendo" data-format="cartridge" data-era="1990s" data-year="1990" data-tags="16-bit mode 7 rpg platformer cartridge">
           <img src="docs/images/SNES img.png" alt="Super Nintendo Entertainment System 16-bit console">
-          <div class="card-copy">
-            <h4>Super Nintendo (SNES)</h4>
-            <p>Nintendo - 1990</p>
-            <a class="card-link" href="consoles/snes.html">View Console Page</a>
+          <div class="card-body">
+            <h3>Super Nintendo (SNES)</h3>
+            <p class="card-sub">Nintendo | 1990 | 16-bit classic</p>
+            <p>Precision platforming, legendary RPGs, and rich sound in one iconic box.</p>
+            <ul class="mini-specs">
+              <li><span>CPU</span><strong>3.58 MHz</strong></li>
+              <li><span>Media</span><strong>Cartridge</strong></li>
+              <li><span>Icon</span><strong>Chrono Trigger</strong></li>
+            </ul>
+            <a class="dossier-link" href="consoles/snes.html">Open Dossier</a>
           </div>
         </article>
 
-        <article class="card" data-title="Nintendo Entertainment System NES" data-reveal>
-          <img src="docs/images/NES ing.png" alt="Nintendo Entertainment System home console from the 1980s">
-          <div class="card-copy">
-            <h4>Nintendo Entertainment System (NES)</h4>
-            <p>Nintendo - 1983</p>
-            <a class="card-link" href="consoles/nes.html">View Console Page</a>
+        <article class="console-card" data-title="PlayStation PS1" data-maker="sony" data-format="optical" data-era="1990s" data-year="1994" data-tags="cd 3d rpg survival horror polygon memory card">
+          <img src="docs/images/PS1 Img (2).png" alt="Original Sony PlayStation console from 1994">
+          <div class="card-body">
+            <h3>PlayStation (PS1)</h3>
+            <p class="card-sub">Sony | 1994 | CD polygon era</p>
+            <p>CD media and broad third-party support made 3D gaming mainstream.</p>
+            <ul class="mini-specs">
+              <li><span>CPU</span><strong>33.9 MHz</strong></li>
+              <li><span>Media</span><strong>CD-ROM</strong></li>
+              <li><span>Icon</span><strong>Metal Gear Solid</strong></li>
+            </ul>
+            <a class="dossier-link" href="consoles/ps1.html">Open Dossier</a>
           </div>
         </article>
 
-        <article class="card" data-title="Nintendo 64 N64" data-reveal>
+        <article class="console-card" data-title="Nintendo 64 N64" data-maker="nintendo" data-format="cartridge" data-era="1990s" data-year="1996" data-tags="3d analog multiplayer shooter platformer cartridge rumble">
           <img src="docs/images/N64 img.png" alt="Nintendo 64 console known for analog control and local multiplayer">
-          <div class="card-copy">
-            <h4>Nintendo 64 (N64)</h4>
-            <p>Nintendo - 1996</p>
-            <a class="card-link" href="consoles/n64.html">View Console Page</a>
+          <div class="card-body">
+            <h3>Nintendo 64 (N64)</h3>
+            <p class="card-sub">Nintendo | 1996 | Analog disruption</p>
+            <p>Analog movement plus four-controller local sessions defined couch play.</p>
+            <ul class="mini-specs">
+              <li><span>CPU</span><strong>93.75 MHz</strong></li>
+              <li><span>Media</span><strong>Cartridge</strong></li>
+              <li><span>Icon</span><strong>Ocarina of Time</strong></li>
+            </ul>
+            <a class="dossier-link" href="consoles/n64.html">Open Dossier</a>
           </div>
         </article>
 
-        <article class="card" data-title="Game Boy Color" data-reveal>
+        <article class="console-card" data-title="Game Boy Color" data-maker="nintendo" data-format="hybrid" data-era="1990s" data-year="1998" data-tags="handheld portable pokemon color cartridge">
           <img src="docs/images/GameBoy Color img.png" alt="Nintendo Game Boy Color handheld console">
-          <div class="card-copy">
-            <h4>Game Boy Color</h4>
-            <p>Nintendo - 1998</p>
-            <a class="card-link" href="consoles/gameboy-color.html">View Console Page</a>
+          <div class="card-body">
+            <h3>Game Boy Color</h3>
+            <p class="card-sub">Nintendo | 1998 | Pocket color boom</p>
+            <p>A portable catalog machine with color support and massive daily-play appeal.</p>
+            <ul class="mini-specs">
+              <li><span>CPU</span><strong>8 MHz</strong></li>
+              <li><span>Format</span><strong>Handheld cart</strong></li>
+              <li><span>Icon</span><strong>Pokemon Crystal</strong></li>
+            </ul>
+            <a class="dossier-link" href="consoles/gameboy-color.html">Open Dossier</a>
           </div>
         </article>
 
-        <article class="card" data-title="Game Boy Advance" data-reveal>
+        <article class="console-card" data-title="PlayStation 2 PS2" data-maker="sony" data-format="optical" data-era="2000s" data-year="2000" data-tags="dvd open world action rpg sports">
+          <img src="docs/images/PS2 img.png" alt="Sony PlayStation 2 console released in 2000">
+          <div class="card-body">
+            <h3>PlayStation 2 (PS2)</h3>
+            <p class="card-sub">Sony | 2000 | Sixth-gen giant</p>
+            <p>Huge game support plus DVD playback made it a living-room takeover unit.</p>
+            <ul class="mini-specs">
+              <li><span>CPU</span><strong>294 MHz</strong></li>
+              <li><span>Media</span><strong>DVD/CD</strong></li>
+              <li><span>Icon</span><strong>Shadow of the Colossus</strong></li>
+            </ul>
+            <a class="dossier-link" href="consoles/ps2.html">Open Dossier</a>
+          </div>
+        </article>
+
+        <article class="console-card" data-title="Game Boy Advance" data-maker="nintendo" data-format="hybrid" data-era="2000s" data-year="2001" data-tags="handheld 32-bit rpg tactics action portability">
           <img src="docs/images/GameBoy Advance.png" alt="Nintendo Game Boy Advance handheld console released in 2001">
-          <div class="card-copy">
-            <h4>Game Boy Advance</h4>
-            <p>Nintendo - 2001</p>
-            <a class="card-link" href="consoles/gameboy-advance.html">View Console Page</a>
+          <div class="card-body">
+            <h3>Game Boy Advance</h3>
+            <p class="card-sub">Nintendo | 2001 | 32-bit pocket leap</p>
+            <p>Deep RPG and action lineup with hardware muscle for ambitious handheld design.</p>
+            <ul class="mini-specs">
+              <li><span>CPU</span><strong>16.78 MHz</strong></li>
+              <li><span>Format</span><strong>Handheld cart</strong></li>
+              <li><span>Icon</span><strong>Metroid Fusion</strong></li>
+            </ul>
+            <a class="dossier-link" href="consoles/gameboy-advance.html">Open Dossier</a>
           </div>
         </article>
       </div>
     </section>
 
-    <section id="eras" class="timeline shell" data-reveal>
+    <section id="timeline" class="shell section-block timeline-section" data-reveal>
       <div class="section-heading">
         <p class="eyebrow">Time Warp</p>
-        <h3>Three Defining Eras</h3>
+        <h2>Milestones That Changed Play</h2>
       </div>
-      <div class="era-grid">
+      <div class="timeline-track">
+        <article class="timeline-stop">
+          <p class="stamp">1983</p>
+          <h3>NES Launch</h3>
+          <p>Reset confidence in home consoles with strict publishing quality and polished platformers.</p>
+        </article>
+        <article class="timeline-stop">
+          <p class="stamp">1990</p>
+          <h3>SNES Era Start</h3>
+          <p>Higher fidelity visuals and audio pushed cinematic game direction on cartridges.</p>
+        </article>
+        <article class="timeline-stop">
+          <p class="stamp">1994</p>
+          <h3>PlayStation CD Pivot</h3>
+          <p>Optical media lowered publishing limits and invited bigger game worlds plus FMV.</p>
+        </article>
+        <article class="timeline-stop">
+          <p class="stamp">1996</p>
+          <h3>N64 Analog Control</h3>
+          <p>3D camera movement and multiplayer ergonomics became mainstream design standards.</p>
+        </article>
+        <article class="timeline-stop">
+          <p class="stamp">2000-2001</p>
+          <h3>PS2 + GBA Expansion</h3>
+          <p>One console dominated living rooms while handheld play gained major 32-bit depth.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="genres" class="shell section-block" data-reveal>
+      <div class="section-heading">
+        <p class="eyebrow">Genre Matrix</p>
+        <h2>What Each Era Did Best</h2>
+      </div>
+      <div class="genre-grid">
+        <article class="genre-card">
+          <h3>Platformers</h3>
+          <p>NES and SNES tuned movement physics so tightly that modern indie platformers still mirror them.</p>
+          <p class="tag-row">Key picks: Super Mario Bros. 3, Super Mario World, Donkey Kong Country 2</p>
+        </article>
+        <article class="genre-card">
+          <h3>RPG Giants</h3>
+          <p>SNES and PS1 built the dramatic JRPG template through pixel art, CD audio, and long-form storytelling.</p>
+          <p class="tag-row">Key picks: Chrono Trigger, Final Fantasy VI, Final Fantasy VII</p>
+        </article>
+        <article class="genre-card">
+          <h3>Action + Adventure</h3>
+          <p>Z-targeting, lock-on combat, and guided 3D exploration accelerated on N64 and PS2.</p>
+          <p class="tag-row">Key picks: Ocarina of Time, Devil May Cry, God of War II</p>
+        </article>
+        <article class="genre-card">
+          <h3>Local Multiplayer</h3>
+          <p>N64 normalized four-player sessions at home, then PS2 carried the party with sports and racing staples.</p>
+          <p class="tag-row">Key picks: Mario Kart 64, GoldenEye 007, NBA Street Vol. 2</p>
+        </article>
+        <article class="genre-card">
+          <h3>Portable Mastery</h3>
+          <p>Game Boy Color and GBA made serious RPG, strategy, and action sessions possible on commutes.</p>
+          <p class="tag-row">Key picks: Pokemon Crystal, Advance Wars, Metroid Fusion</p>
+        </article>
+        <article class="genre-card">
+          <h3>Horror + Atmosphere</h3>
+          <p>CD consoles let developers lean into voice lines, ambient sound, and cinematic camera framing.</p>
+          <p class="tag-row">Key picks: Resident Evil 2, Silent Hill 2, Fatal Frame</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="collectors" class="shell section-block" data-reveal>
+      <div class="section-heading">
+        <p class="eyebrow">Collector Corner</p>
+        <h2>Own Hardware Without Chaos</h2>
+      </div>
+      <div class="collector-grid">
         <article>
-          <p class="era-year">1983-1989</p>
-          <h4>Home Console Breakthrough</h4>
-          <p>The NES helped reboot confidence in home gaming and shaped level design language for decades.</p>
+          <h3>Buy Smart Checklist</h3>
+          <ul class="check-list">
+            <li>Confirm power adapters and video cables are original or high-quality replacements.</li>
+            <li>Request test photos showing boot screen, controller ports, and cartridge or disc reads.</li>
+            <li>Watch for yellowed shells, cracked hinges, and stripped screws on handheld battery doors.</li>
+          </ul>
         </article>
         <article>
-          <p class="era-year">1990-1999</p>
-          <h4>16-Bit to 64-Bit Leap</h4>
-          <p>SNES and N64 pushed color, worlds, and controller innovation while arcades stayed culturally dominant.</p>
+          <h3>Preservation Routine</h3>
+          <ul class="check-list">
+            <li>Store cartridges vertically in dry rooms and avoid attic heat swings.</li>
+            <li>Clean contacts with isopropyl alcohol and lint-free swabs before deep troubleshooting.</li>
+            <li>Swap aging save batteries in carts early to avoid save data loss.</li>
+          </ul>
         </article>
         <article>
-          <p class="era-year">2000-2001</p>
-          <h4>Portable and Power Era</h4>
-          <p>PS2 dominated living rooms while Game Boy Advance proved handheld design still had massive runway.</p>
+          <h3>Modern Play Methods</h3>
+          <ul class="check-list">
+            <li>Original hardware for authenticity and CRT-era response timing.</li>
+            <li>FPGA systems for high compatibility with modern displays.</li>
+            <li>Emulation for convenience, save states, and broader accessibility options.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="library" class="shell section-block" data-reveal>
+      <div class="section-heading">
+        <p class="eyebrow">Starter Library</p>
+        <h2>Structured Routes Into Retro Gaming</h2>
+      </div>
+      <div class="library-grid">
+        <article>
+          <h3>Route 1: Story-Driven</h3>
+          <p>Start on SNES for 16-bit narrative pacing, then jump to PS1 and PS2 for cinematic growth.</p>
+          <ul class="resource-list">
+            <li>Chrono Trigger -> Final Fantasy VII -> Shadow of the Colossus</li>
+            <li>Goal: See storytelling scale evolve across media formats.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Route 2: Mechanics First</h3>
+          <p>Focus on movement and combat purity across generations without heavy story overhead.</p>
+          <ul class="resource-list">
+            <li>Super Mario World -> Super Metroid -> Devil May Cry 3</li>
+            <li>Goal: Track control feel and level design evolution.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Route 3: Portable Session</h3>
+          <p>Build a fast library you can clear in short bursts while still seeing deep design systems.</p>
+          <ul class="resource-list">
+            <li>Pokemon Crystal -> Wario Land 3 -> Advance Wars</li>
+            <li>Goal: Learn how handheld pacing differs from living-room play.</li>
+          </ul>
         </article>
       </div>
     </section>
   </main>
 
   <footer class="site-footer shell">
-    <p>Retro Gaming - Built for players who still remember memory cards.</p>
+    <p>Pixel Panic HQ keeps retro gaming loud, searchable, and organized for real play sessions.</p>
     <p class="footer-signature">Built by Faustino Lopez - <a href="https://github.com/faustinolopez" target="_blank" rel="noopener noreferrer">GitHub</a></p>
   </footer>
 
