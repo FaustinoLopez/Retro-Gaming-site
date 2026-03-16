@@ -200,59 +200,6 @@
     }
   });
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const pointerFine = window.matchMedia('(pointer: fine)').matches;
-  const desktopViewport = window.matchMedia('(min-width: 1024px)').matches;
-
-  if (!reducedMotion && pointerFine && desktopViewport) {
-    cards.forEach((card) => {
-      let rafId = 0;
-      let nextTilt = null;
-
-      const renderTilt = () => {
-        rafId = 0;
-        if (!nextTilt) return;
-
-        card.style.setProperty('--tilt-x', nextTilt.tiltX);
-        card.style.setProperty('--tilt-y', nextTilt.tiltY);
-        card.style.setProperty('--spot-x', nextTilt.spotX);
-        card.style.setProperty('--spot-y', nextTilt.spotY);
-      };
-
-      card.addEventListener('pointermove', (event) => {
-        const rect = card.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width;
-        const y = (event.clientY - rect.top) / rect.height;
-
-        const tiltX = (0.5 - y) * 5;
-        const tiltY = (x - 0.5) * 6;
-
-        nextTilt = {
-          tiltX: `${tiltX.toFixed(2)}deg`,
-          tiltY: `${tiltY.toFixed(2)}deg`,
-          spotX: `${(x * 100).toFixed(2)}%`,
-          spotY: `${(y * 100).toFixed(2)}%`
-        };
-
-        if (!rafId) {
-          rafId = requestAnimationFrame(renderTilt);
-        }
-      }, { passive: true });
-
-      card.addEventListener('pointerleave', () => {
-        if (rafId) {
-          cancelAnimationFrame(rafId);
-          rafId = 0;
-        }
-        nextTilt = null;
-        card.style.setProperty('--tilt-x', '0deg');
-        card.style.setProperty('--tilt-y', '0deg');
-        card.style.setProperty('--spot-x', '50%');
-        card.style.setProperty('--spot-y', '50%');
-      });
-    });
-  }
-
   if (timelineStops.length && 'IntersectionObserver' in window) {
     const timelineObserver = new IntersectionObserver(
       (entries) => {
@@ -269,76 +216,147 @@
     timelineStops.forEach((stop) => timelineObserver.observe(stop));
   }
 
-  const loadGameArt = async () => {
+  const loadGameArt = () => {
     if (!gameArtPanels.length) return;
 
-    const fetchWikipediaThumbnail = async (title) => {
-      const endpoint = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
-      const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
-      if (!response.ok) throw new Error('thumbnail request failed');
-      const payload = await response.json();
-      return payload.thumbnail?.source || '';
+    const cachePrefix = 'pixelPanicCover:';
+    const thumbnailCache = new Map();
+
+    const getCachedThumbnail = (title) => {
+      if (thumbnailCache.has(title)) {
+        return thumbnailCache.get(title);
+      }
+
+      try {
+        const stored = sessionStorage.getItem(`${cachePrefix}${title}`);
+        if (stored !== null) {
+          thumbnailCache.set(title, stored);
+          return stored;
+        }
+      } catch (_error) {
+        // Ignore storage access issues.
+      }
+
+      return null;
     };
 
-    const createFallbackCard = (title) => {
+    const setCachedThumbnail = (title, value) => {
+      thumbnailCache.set(title, value);
+
+      try {
+        sessionStorage.setItem(`${cachePrefix}${title}`, value);
+      } catch (_error) {
+        // Ignore storage access issues.
+      }
+    };
+
+    const fetchWikipediaThumbnail = async (title) => {
+      const cached = getCachedThumbnail(title);
+      if (cached !== null) return cached;
+
+      const endpoint = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+      const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
+      if (!response.ok) {
+        setCachedThumbnail(title, '');
+        return '';
+      }
+
+      const payload = await response.json();
+      const thumbnail = payload.thumbnail?.source || '';
+      setCachedThumbnail(title, thumbnail);
+      return thumbnail;
+    };
+
+    const createFallbackCard = (title, label = 'No cover') => {
       const item = document.createElement('article');
       item.className = 'game-art-card is-fallback';
-      item.innerHTML = `<div class="game-art-fallback">No cover</div><p>${title}</p>`;
+      item.innerHTML = `<div class="game-art-fallback">${label}</div><p>${title}</p>`;
       return item;
     };
 
-    await Promise.all(
-      gameArtPanels.map(async (panel) => {
-        const games = (panel.dataset.games || '')
-          .split('|')
-          .map((name) => name.trim())
-          .filter(Boolean);
+    const mapWithConcurrency = async (items, limit, task) => {
+      const results = new Array(items.length);
+      let cursor = 0;
+      const workerCount = Math.min(limit, items.length);
 
-        if (!games.length) return;
+      const workers = Array.from({ length: workerCount }, async () => {
+        while (cursor < items.length) {
+          const current = cursor++;
+          results[current] = await task(items[current], current);
+        }
+      });
 
-        panel.innerHTML = '';
+      await Promise.all(workers);
+      return results;
+    };
 
-        for (const title of games) {
-          try {
-            const thumbnail = await fetchWikipediaThumbnail(title);
-            if (!thumbnail) {
-              panel.appendChild(createFallbackCard(title));
-              continue;
-            }
+    const renderGameArt = async (panel) => {
+      if (panel.dataset.artLoaded === 'true') return;
+      panel.dataset.artLoaded = 'true';
 
+      const games = (panel.dataset.games || '')
+        .split('|')
+        .map((name) => name.trim())
+        .filter(Boolean);
+
+      if (!games.length) return;
+
+      panel.innerHTML = '';
+      const placeholders = games.map((title) => {
+        const placeholder = createFallbackCard(title, 'Loading...');
+        panel.appendChild(placeholder);
+        return placeholder;
+      });
+
+      await mapWithConcurrency(games, 4, async (title, index) => {
+        let nextCard = null;
+
+        try {
+          const thumbnail = await fetchWikipediaThumbnail(title);
+          if (!thumbnail) {
+            nextCard = createFallbackCard(title);
+          } else {
             const item = document.createElement('article');
             item.className = 'game-art-card';
-            item.innerHTML = `<img src="${thumbnail}" alt="${title} cover art" loading="lazy"><p>${title}</p>`;
-            panel.appendChild(item);
-          } catch (_error) {
-            panel.appendChild(createFallbackCard(title));
+            item.innerHTML = `<img src="${thumbnail}" alt="${title} cover art" loading="lazy" decoding="async"><p>${title}</p>`;
+            nextCard = item;
           }
+        } catch (_error) {
+          nextCard = createFallbackCard(title);
         }
-      })
-    );
+
+        const placeholder = placeholders[index];
+        if (placeholder?.isConnected && nextCard) {
+          placeholder.replaceWith(nextCard);
+        }
+      });
+    };
+
+    if ('IntersectionObserver' in window) {
+      const artObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            observer.unobserve(entry.target);
+            renderGameArt(entry.target);
+          });
+        },
+        {
+          rootMargin: '220px 0px',
+          threshold: 0.01
+        }
+      );
+
+      gameArtPanels.forEach((panel) => artObserver.observe(panel));
+      return;
+    }
+
+    gameArtPanels.forEach((panel) => renderGameArt(panel));
   };
 
   applyFilters();
   loadGameArt();
 
   const revealNodes = Array.from(document.querySelectorAll('[data-reveal]'));
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    revealNodes.forEach((node, index) => {
-      node.style.transitionDelay = `${Math.min(index * 70, 320)}ms`;
-      revealObserver.observe(node);
-    });
-  } else {
-    revealNodes.forEach((node) => node.classList.add('in-view'));
-  }
+  revealNodes.forEach((node) => node.classList.add('in-view'));
 });
