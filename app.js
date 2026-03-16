@@ -110,8 +110,9 @@
       return yearA - yearB;
     });
 
+    const visibleCards = new Set(filtered);
     cards.forEach((card) => {
-      card.hidden = !filtered.includes(card);
+      card.hidden = !visibleCards.has(card);
       card.classList.remove('is-spotlight');
     });
 
@@ -201,9 +202,23 @@
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const pointerFine = window.matchMedia('(pointer: fine)').matches;
+  const desktopViewport = window.matchMedia('(min-width: 1024px)').matches;
 
-  if (!reducedMotion && pointerFine) {
+  if (!reducedMotion && pointerFine && desktopViewport) {
     cards.forEach((card) => {
+      let rafId = 0;
+      let nextTilt = null;
+
+      const renderTilt = () => {
+        rafId = 0;
+        if (!nextTilt) return;
+
+        card.style.setProperty('--tilt-x', nextTilt.tiltX);
+        card.style.setProperty('--tilt-y', nextTilt.tiltY);
+        card.style.setProperty('--spot-x', nextTilt.spotX);
+        card.style.setProperty('--spot-y', nextTilt.spotY);
+      };
+
       card.addEventListener('pointermove', (event) => {
         const rect = card.getBoundingClientRect();
         const x = (event.clientX - rect.left) / rect.width;
@@ -212,13 +227,24 @@
         const tiltX = (0.5 - y) * 5;
         const tiltY = (x - 0.5) * 6;
 
-        card.style.setProperty('--tilt-x', `${tiltX.toFixed(2)}deg`);
-        card.style.setProperty('--tilt-y', `${tiltY.toFixed(2)}deg`);
-        card.style.setProperty('--spot-x', `${(x * 100).toFixed(2)}%`);
-        card.style.setProperty('--spot-y', `${(y * 100).toFixed(2)}%`);
-      });
+        nextTilt = {
+          tiltX: `${tiltX.toFixed(2)}deg`,
+          tiltY: `${tiltY.toFixed(2)}deg`,
+          spotX: `${(x * 100).toFixed(2)}%`,
+          spotY: `${(y * 100).toFixed(2)}%`
+        };
+
+        if (!rafId) {
+          rafId = requestAnimationFrame(renderTilt);
+        }
+      }, { passive: true });
 
       card.addEventListener('pointerleave', () => {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+        nextTilt = null;
         card.style.setProperty('--tilt-x', '0deg');
         card.style.setProperty('--tilt-y', '0deg');
         card.style.setProperty('--spot-x', '50%');

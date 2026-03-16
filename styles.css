@@ -45,18 +45,8 @@ body {
     radial-gradient(58rem 32rem at 50% 118%, rgba(201, 255, 75, 0.14), transparent 62%),
     linear-gradient(165deg, var(--bg-core), var(--bg-deep));
   background-size: 130% 130%, 130% 130%, 140% 140%, auto;
-  animation: ambientShift 18s ease-in-out infinite alternate;
+  animation: none;
   overflow-x: hidden;
-}
-
-@keyframes ambientShift {
-  0% {
-    background-position: 0% 0%, 0% 0%, 0% 0%, 0 0;
-  }
-
-  100% {
-    background-position: 10% -6%, -8% 8%, 6% -8%, 0 0;
-  }
 }
 
 body::before {
@@ -71,7 +61,7 @@ body::before {
     transparent 1px,
     transparent 4px
   );
-  mix-blend-mode: soft-light;
+  mix-blend-mode: normal;
   opacity: 0.35;
   z-index: 0;
 }
@@ -106,17 +96,7 @@ body::after {
   background:
     radial-gradient(28rem 18rem at 15% 35%, rgba(255, 79, 130, 0.16), transparent 72%),
     radial-gradient(34rem 22rem at 82% 28%, rgba(201, 255, 75, 0.13), transparent 70%);
-  animation: glowDrift 20s ease-in-out infinite alternate;
-}
-
-@keyframes glowDrift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  100% {
-    transform: translate3d(-1.8%, 1.5%, 0) scale(1.04);
-  }
+  animation: none;
 }
 
 a {
@@ -148,7 +128,6 @@ a {
   border: 1px solid var(--line);
   border-radius: 14px;
   background: linear-gradient(120deg, rgba(8, 14, 30, 0.93), rgba(7, 12, 23, 0.78));
-  backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
@@ -159,14 +138,8 @@ a {
   inset: 0;
   pointer-events: none;
   background: linear-gradient(90deg, transparent, rgba(57, 247, 255, 0.15), transparent);
-  transform: translateX(-65%);
-  animation: navSweep 5.8s linear infinite;
-}
-
-@keyframes navSweep {
-  100% {
-    transform: translateX(65%);
-  }
+  transform: translateX(0);
+  opacity: 0.35;
 }
 
 .brand {
@@ -175,14 +148,6 @@ a {
   gap: 0.34rem;
   position: relative;
   z-index: 1;
-}
-
-.brand-kicker {
-  margin: 0;
-  color: var(--neon-cyan);
-  font: 700 0.61rem/1 "Space Mono", monospace;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
 }
 
 .brand-title {
@@ -280,14 +245,6 @@ a {
   opacity: 0.4;
 }
 
-.eyebrow {
-  margin: 0;
-  color: var(--neon-lime);
-  font: 700 0.72rem/1 "Space Mono", monospace;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
 .hero-shell h1 {
   margin: 0;
   max-width: 15ch;
@@ -354,6 +311,8 @@ a {
 .section-block {
   padding: 2.4rem 0;
   position: relative;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
 }
 
 .section-block::before {
@@ -495,8 +454,8 @@ a {
     linear-gradient(170deg, var(--bg-panel), rgba(8, 12, 22, 0.9));
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   transform-style: preserve-3d;
-  will-change: transform;
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  contain: layout paint;
 }
 
 .console-card::before,
@@ -525,13 +484,15 @@ a {
 }
 
 .console-card:hover {
+  will-change: transform;
   border-color: var(--neon-cyan);
   box-shadow: 0 18px 38px rgba(0, 0, 0, 0.48), 0 0 26px rgba(57, 247, 255, 0.18);
 }
 
 .console-card img {
   width: 100%;
-  height: 170px;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: contain;
   padding: 0.8rem;
   background:
@@ -851,6 +812,12 @@ body.mode-shift .hero-shell {
   gap: 0.55rem;
 }
 
+@media (min-width: 1200px) {
+  .game-art-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .game-art-card {
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -954,6 +921,13 @@ body.mode-shift .hero-shell {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.8rem;
+  align-items: start;
+}
+
+.console-side-stack {
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
 }
 
 .console-panel {
